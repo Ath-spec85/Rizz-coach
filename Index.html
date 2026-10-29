@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0b0f">
+<title>RIZZ COACH</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b0b0f;color:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+main{max-width:650px;margin:auto;padding:25px 18px 45px}
+header{display:flex;align-items:center;gap:12px;margin:12px 0 35px}
+.logo{background:#c4ff4d;color:#111;padding:12px;border-radius:14px;font-weight:900}
+h1{font-size:25px;margin:0}small{color:#999}
+h2{font-size:29px;line-height:1.15;margin:25px 0 10px}
+p{color:#aaa;line-height:1.5}
+.panel{background:#15151c;border:1px solid #292933;border-radius:20px;padding:18px;margin-top:18px}
+label{display:block;margin:15px 0 8px;font-size:14px;color:#ccc}
+textarea,select,input{width:100%;background:#0d0d12;color:white;border:1px solid #34343e;border-radius:12px;padding:13px;font:inherit}
+textarea{min-height:130px;resize:vertical}
+button{width:100%;border:0;border-radius:12px;background:#c4ff4d;color:#101010;padding:15px;font-weight:800;font-size:15px;margin-top:13px}
+.secondary{background:#24242d;color:#fff}
+.result{white-space:pre-wrap;line-height:1.6;color:#f4f4f4}
+.tag{display:inline-block;background:#202027;border-radius:20px;padding:7px 10px;color:#c4ff4d;font-size:12px}
+footer{font-size:12px;color:#777;margin-top:28px;line-height:1.6}
+</style>
+</head>
+<body>
+<main>
+<header><div class="logo">RC</div><div><h1>RIZZ COACH</h1><small>Ton coach de conversation</small></div></header>
+<span class="tag">MESSAGES • CONSEILS • CONFIANCE</span>
+<h2>Réponds avec<br>plus de naturel.</h2>
+<p>Décris la conversation et obtiens des idées de réponses qui te ressemblent, sans forcer ni jouer un personnage.</p>
+<section class="panel">
+<label for="context">La conversation (enlève les noms et infos privées)</label>
+<textarea id="context" placeholder="Ex. : Je lui ai demandé ce qu'elle faisait ce week-end. Elle a répondu : rien de spécial et toi ?"></textarea>
+<label for="goal">Ton objectif</label>
+<select id="goal">
+<option>Relancer naturellement</option>
+<option>Être drôle</option>
+<option>Flirter subtilement</option>
+<option>Montrer mon intérêt</option>
+<option>Comprendre son message</option>
+<option>Reprendre une conversation froide</option>
+</select>
+<label for="style">Le style de réponse</label>
+<select id="style">
+<option>Naturel et détendu</option>
+<option>Drôle et taquin</option>
+<option>Confiant, sans en faire trop</option>
+<option>Direct et sincère</option>
+</select>
+<button onclick="analyze()">Générer des idées</button>
+<div id="output" class="panel" hidden>
+<h3>Quelques idées</h3>
+<div id="result" class="result"></div>
+<button class="secondary" onclick="copyResult()">Copier les idées</button>
+</div>
+</section>
+<section class="panel">
+<h3>Les règles du bon rizz</h3>
+<p>01 — Fais court : un message naturel vaut mieux qu'un paragraphe forcé.</p>
+<p>02 — Rebonds sur ce qu'elle dit : pose une vraie question, pas un interrogatoire.</p>
+<p>03 — Respecte son rythme : si elle ne semble pas intéressée, n'insiste pas.</p>
+</section>
+<footer>Prototype local : les idées sont générées dans cette page, sans envoi à un serveur. Ne partage pas de captures privées ou d'informations identifiantes.</footer>
+</main>
+<script>
+function analyze(){
+const c=document.getElementById('context').value.trim();
+const g=document.getElementById('goal').value;
+const s=document.getElementById('style').value;
+if(!c){alert('Décris d’abord la conversation.');return}
+let a=[];
+if(g==='Être drôle'){
+a=['« Mdrrr je vois le niveau 😂 »','« Ok, j’avoue, je m’attendais pas à cette réponse 😂 »','Rebondis sur un détail de son message avec une petite taquinerie bienveillante.'];
+}else if(g==='Flirter subtilement'){
+a=['« J’avoue, parler avec toi c’est plutôt sympa 🙂 »','« T’as toujours des réponses comme ça ou c’est spécial aujourd’hui ? 😂 »','Fais un compliment précis et sincère, sans lui mettre la pression.'];
+}else if(g==='Montrer mon intérêt'){
+a=['« Ça me ferait plaisir qu’on se voie un de ces jours 🙂 »','« En vrai, j’aime bien discuter avec toi. »','Sois clair et laisse-lui la liberté de répondre honnêtement.'];
+}else if(g==='Comprendre son message'){
+a=['Le message seul ne permet pas de connaître exactement ses intentions.','Regarde le contexte, le ton habituel et si elle relance aussi la conversation.','Si tu hésites, réponds simplement plutôt que de chercher un sous-entendu partout.'];
+}else if(g==='Reprendre une conversation froide'){
+a=['« Au fait, comment s’est passée ta journée ? »','« Je viens de penser à un truc : [sujet que vous avez partagé] 😂 »','Envoie un seul message naturel, puis laisse-lui le temps de répondre.'];
+}else{
+a=['« Ah ouais ? Raconte 😂 »','« Et du coup, t’en as pensé quoi ? »','Reprends un détail de son message et pose une question facile.'];
+}
+let intro=s==='Direct et sincère'?'Style : direct et sincère.':s==='Drôle et taquin'?'Style : drôle et taquin.':s==='Confiant, sans en faire trop'?'Style : confiant, sans forcer.':'Style : naturel et détendu.';
+document.getElementById('result').textContent=intro+'\n\n'+a.map((x,i)=>(i+1)+'. '+x).join('\n\n')+'\n\nCes exemples sont des pistes : adapte-les à votre vraie conversation.';
+document.getElementById('output').hidden=false;
+}
+function copyResult(){
+const t=document.getElementById('result').textContent;
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>alert('Copié !')).catch(()=>alert(t))}
+else alert(t);
+}
+</script>
+</body>
+</html>
